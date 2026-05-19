@@ -1,12 +1,13 @@
 import { nanoid } from "nanoid"
 import { useEffect, useState } from "react"
+import { t } from "@/i18n/translation"
 
-const ANIMALS = ["wolf", "hawk", "bear", "shark"]
 const STORAGE_KEY = "chat_username"
 
 const generateUsername = () => {
-  const word = ANIMALS[Math.floor(Math.random() * ANIMALS.length)]
-  return `anonymous-${word}-${nanoid(5)}`
+  const { prefix, animals } = t.current.username
+  const word = animals[Math.floor(Math.random() * animals.length)]
+  return `${prefix}-${word}-${nanoid(5)}`
 }
 
 export const useUsername = () => {

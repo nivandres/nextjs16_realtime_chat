@@ -1,11 +1,14 @@
 "use client"
 
 import { useUsername } from "@/hooks/use-username"
+import { useRouter } from "@/i18n/navigation"
+import { useTranslation } from "@/i18n/translation"
+import { LocaleSelector } from "@/components/locale-selector"
 import { client } from "@/lib/client"
 import { useRealtime } from "@/lib/realtime-client"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { format } from "date-fns"
-import { useParams, useRouter } from "next/navigation"
+import { useParams } from "next/navigation"
 import { use, useEffect, useRef, useState } from "react"
 
 function formatTimeRemaining(seconds: number) {
@@ -19,12 +22,13 @@ const Page = () => {
   const roomId = params.roomId as string
 
   const router = useRouter()
+  const t = useTranslation("room")
 
   const { username } = useUsername()
   const [input, setInput] = useState("")
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const [copyStatus, setCopyStatus] = useState("COPY")
+  const [copyStatus, setCopyStatus] = useState(t("copy"))
   const [timeRemaining, setTimeRemaining] = useState<number | null>(null)
 
   const { data: ttlData } = useQuery({
@@ -99,8 +103,8 @@ const Page = () => {
   const copyLink = () => {
     const url = window.location.href
     navigator.clipboard.writeText(url)
-    setCopyStatus("COPIED!")
-    setTimeout(() => setCopyStatus("COPY"), 2000)
+    setCopyStatus(t("copied"))
+    setTimeout(() => setCopyStatus(t("copy")), 2000)
   }
 
   return (
@@ -108,7 +112,7 @@ const Page = () => {
       <header className="border-b border-zinc-800 p-4 flex items-center justify-between bg-zinc-900/30">
         <div className="flex items-center gap-4">
           <div className="flex flex-col">
-            <span className="text-xs text-zinc-500 uppercase">Room ID</span>
+            <span className="text-xs text-zinc-500 uppercase">{t("room_id")}</span>
             <div className="flex items-center gap-2">
               <span className="font-bold text-green-500 truncate">{roomId.slice(0,10) + "..."}</span>
               <button
@@ -123,7 +127,7 @@ const Page = () => {
           <div className="h-8 w-px bg-zinc-800" />
 
           <div className="flex flex-col">
-            <span className="text-xs text-zinc-500 uppercase">Self-Destruct</span>
+            <span className="text-xs text-zinc-500 uppercase">{t("self_destruct")}</span>
             <span
               className={`text-sm font-bold flex items-center gap-2 ${
                 timeRemaining !== null && timeRemaining < 60
@@ -136,13 +140,16 @@ const Page = () => {
           </div>
         </div>
 
-        <button
-          onClick={() => destroyRoom()}
-          className="text-xs bg-zinc-800 hover:bg-red-600 px-3 py-1.5 rounded text-zinc-400 hover:text-white font-bold transition-all group flex items-center gap-2 disabled:opacity-50"
-        >
-          <span className="group-hover:animate-pulse">💣</span>
-          DESTROY NOW
-        </button>
+        <div className="flex items-center gap-3">
+          <LocaleSelector />
+          <button
+            onClick={() => destroyRoom()}
+            className="text-xs bg-zinc-800 hover:bg-red-600 px-3 py-1.5 rounded text-zinc-400 hover:text-white font-bold transition-all group flex items-center gap-2 disabled:opacity-50"
+          >
+            <span className="group-hover:animate-pulse">💣</span>
+            {t("destroy_now")}
+          </button>
+        </div>
       </header>
 
       {/* MESSAGES */}
@@ -150,7 +157,7 @@ const Page = () => {
         {messages?.messages.length === 0 && (
           <div className="flex items-center justify-center h-full">
             <p className="text-zinc-600 text-sm font-mono">
-              No messages yet, start the conversation.
+              {t("empty_state")}
             </p>
           </div>
         )}
@@ -164,7 +171,7 @@ const Page = () => {
                     msg.sender === username ? "text-green-500" : "text-blue-500"
                   }`}
                 >
-                  {msg.sender === username ? "YOU" : msg.sender}
+                  {msg.sender === username ? t("current_user") : msg.sender}
                 </span>
 
                 <span className="text-[10px] text-zinc-600">
@@ -196,7 +203,7 @@ const Page = () => {
                   inputRef.current?.focus()
                 }
               }}
-              placeholder="Type message..."
+              placeholder={t("placeholder")}
               onChange={(e) => setInput(e.target.value)}
               className="w-full bg-black border border-zinc-800 focus:border-zinc-700 focus:outline-none transition-colors text-zinc-100 placeholder:text-zinc-700 py-3 pl-8 pr-4 text-sm"
             />
@@ -210,7 +217,7 @@ const Page = () => {
             disabled={!input.trim() || isPending}
             className="bg-zinc-800 text-zinc-400 px-6 text-sm font-bold hover:text-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
-            SEND
+            {t("send")}
           </button>
         </div>
       </div>

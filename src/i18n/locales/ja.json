@@ -1,0 +1,37 @@
+{
+  "title": ">puraibeto_chatto",
+  "description": "非公開で自動削除されるチャットルーム。",
+  "alerts": {
+    "destroyed": {
+      "title": "ルームは削除されました",
+      "description": "すべてのメッセージは完全に削除されました。"
+    },
+    "room_not_found": {
+      "title": "ルームが見つかりません",
+      "description": "このルームは期限切れになったか、最初から存在しなかった可能性があります。"
+    },
+    "room_full": {
+      "title": "ルームが満員です",
+      "description": "このルームは最大人数に達しています。"
+    }
+  },
+  "form": {
+    "identity_label": "あなたの名前",
+    "create_room_button": "安全なルームを作成"
+  },
+  "username": {
+    "prefix": "anonymous",
+    "animals": ["ookami", "taka", "kuma", "same"]
+  },
+  "room": {
+    "room_id": "ルームID",
+    "self_destruct": "自動削除",
+    "copy": "コピー",
+    "copied": "コピー完了!",
+    "destroy_now": "今すぐ削除",
+    "empty_state": "まだメッセージはありません。会話を始めてください。",
+    "current_user": "あなた",
+    "placeholder": "メッセージを入力...",
+    "send": "送信"
+  }
+}

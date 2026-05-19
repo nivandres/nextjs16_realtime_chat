@@ -1,0 +1,37 @@
+{
+  "title": ">private_chat",
+  "description": "A private, self-destructing chat room.",
+  "alerts": {
+    "destroyed": {
+      "title": "ROOM DESTROYED",
+      "description": "All messages were permanently deleted."
+    },
+    "room_not_found": {
+      "title": "ROOM NOT FOUND",
+      "description": "This room may have expired or never existed."
+    },
+    "room_full": {
+      "title": "ROOM FULL",
+      "description": "This room is at maximum capacity."
+    }
+  },
+  "form": {
+    "identity_label": "Your Identity",
+    "create_room_button": "CREATE SECURE ROOM"
+  },
+  "username": {
+    "prefix": "anonymous",
+    "animals": ["wolf", "hawk", "bear", "shark"]
+  },
+  "room": {
+    "room_id": "Room ID",
+    "self_destruct": "Self-Destruct",
+    "copy": "COPY",
+    "copied": "COPIED!",
+    "destroy_now": "DESTROY NOW",
+    "empty_state": "No messages yet, start the conversation.",
+    "current_user": "YOU",
+    "placeholder": "Type message...",
+    "send": "SEND"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "title": ">chat_privado",
+  "description": "Una sala de chat privada y autodestructiva.",
+  "alerts": {
+    "destroyed": {
+      "title": "SALA DESTRUIDA",
+      "description": "Todos los mensajes fueron eliminados permanentemente."
+    },
+    "room_not_found": {
+      "title": "SALA NO ENCONTRADA",
+      "description": "Esta sala puede haber expirado o nunca haber existido."
+    },
+    "room_full": {
+      "title": "SALA LLENA",
+      "description": "Esta sala alcanzó su capacidad máxima."
+    }
+  },
+  "form": {
+    "identity_label": "Tu identidad",
+    "create_room_button": "CREAR SALA SEGURA"
+  },
+  "username": {
+    "prefix": "anónimo",
+    "animals": ["lobo", "halcón", "oso", "tiburón"]
+  },
+  "room": {
+    "room_id": "ID de la sala",
+    "self_destruct": "Autodestrucción",
+    "copy": "COPIAR",
+    "copied": "COPIADO!",
+    "destroy_now": "DESTRUIR AHORA",
+    "empty_state": "Todavía no hay mensajes. Empieza la conversación.",
+    "current_user": "TÚ",
+    "placeholder": "Escribe un mensaje...",
+    "send": "ENVIAR"
+  }
+}

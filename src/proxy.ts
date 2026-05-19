@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server"
 import { redis } from "./lib/redis"
 import { nanoid } from "nanoid"
+import { PATH_HEADERS_KEY} from "intl-t/next"
+import { withI18nProxy } from "./i18n/navigation"
 
-export const proxy = async (req: NextRequest) => {
-  const pathname = req.nextUrl.pathname
+export const proxy = withI18nProxy(async (req, _ev, response) => {
+  const pathname = response.headers.get(PATH_HEADERS_KEY)!
 
   const roomMatch = pathname.match(/^\/room\/([^/]+)$/)
-  if (!roomMatch) return NextResponse.redirect(new URL("/", req.url))
+  if (!roomMatch) return response
 
   const roomId = roomMatch[1]
 
@@ -15,22 +17,20 @@ export const proxy = async (req: NextRequest) => {
   )
 
   if (!meta) {
-    return NextResponse.redirect(new URL("/?error=room-not-found", req.url))
+    return NextResponse.redirect(new URL("/?error=room_not_found", req.url))
   }
 
   const existingToken = req.cookies.get("x-auth-token")?.value
 
   // USER IS ALLOWED TO JOIN ROOM
   if (existingToken && meta.connected.includes(existingToken)) {
-    return NextResponse.next()
+    return response
   }
 
   // USER IS NOT ALLOWED TO JOIN
   if (meta.connected.length >= 2) {
-    return NextResponse.redirect(new URL("/?error=room-full", req.url))
+    return NextResponse.redirect(new URL("/?error=room_full", req.url))
   }
-
-  const response = NextResponse.next()
 
   const token = nanoid()
 
@@ -46,8 +46,8 @@ export const proxy = async (req: NextRequest) => {
   })
 
   return response
-}
+})
 
 export const config = {
-  matcher: "/room/:path*",
+  matcher: "/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)",
 }
